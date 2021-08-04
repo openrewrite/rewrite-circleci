@@ -15,6 +15,6 @@
 #
 ---
 type: specs.openrewrite.org/v1beta/category
-name: Gradle
+name: CircleCI
 packageName: org.openrewrite.circleci
 description: 'Recipes to perform [CircleCI](https://circleci.com/) hygiene and migration tasks.'
