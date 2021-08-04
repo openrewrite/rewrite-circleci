@@ -24,10 +24,10 @@ import org.openrewrite.yaml.tree.Yaml;
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class InstallOrb extends Recipe {
-    @Option(displayName = "Name",
+    @Option(displayName = "Orb key",
             description = "The orb key to be followed by an orb slug identifying a specific orb version.",
             example = "kube")
-    String name;
+    String orbKey;
 
     @Option(displayName = "Slug",
             description = "A specific orb to install, in the form `<namespace>/<orb-name>@1.2.3`.",
@@ -59,7 +59,7 @@ public class InstallOrb extends Recipe {
                 if (!orbs.find(getCursor()).isPresent() || Boolean.TRUE.equals(getCursor().getMessage("INSERT_ORB"))) {
                     doAfterVisit(new MergeYamlVisitor<>(document.getBlock(), "" +
                             "orbs:\n" +
-                            "  " + name + ": " + slug,
+                            "  " + orbKey + ": " + slug,
                             false));
                 }
                 return d;
