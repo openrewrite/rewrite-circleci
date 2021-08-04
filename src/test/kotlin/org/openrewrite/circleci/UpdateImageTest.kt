@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openrewrite.gradle
+package org.openrewrite.circleci
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.openrewrite.Recipe
-import org.openrewrite.properties.PropertiesRecipeTest
 import org.openrewrite.yaml.YamlRecipeTest
 import java.nio.file.Path
 
