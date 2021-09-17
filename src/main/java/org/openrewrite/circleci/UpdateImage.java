@@ -24,7 +24,6 @@ import org.openrewrite.yaml.ChangeValue;
 @EqualsAndHashCode(callSuper = false)
 @Getter
 public class UpdateImage extends Recipe {
-
     @Option(displayName = "Image",
             description = "Image to use.",
             example = "circleci/openjdk:jdk")
@@ -32,7 +31,7 @@ public class UpdateImage extends Recipe {
 
     public UpdateImage(String image) {
         this.image = image;
-        doNext(new ChangeValue("/jobs/build/machine/image",
+        doNext(new ChangeValue("$.jobs.build.machine.image",
                 image,
                 ".circleci/config.yml")
         );
