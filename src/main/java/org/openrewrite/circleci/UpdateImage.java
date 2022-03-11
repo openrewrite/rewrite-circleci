@@ -21,6 +21,8 @@ import org.openrewrite.Option;
 import org.openrewrite.Recipe;
 import org.openrewrite.yaml.ChangeValue;
 
+import java.time.Duration;
+
 @EqualsAndHashCode(callSuper = false)
 @Getter
 public class UpdateImage extends Recipe {
@@ -45,5 +47,10 @@ public class UpdateImage extends Recipe {
     @Override
     public String getDescription() {
         return "See the list of [pre-built CircleCI images](https://circleci.com/docs/2.0/circleci-images/).";
+    }
+
+    @Override
+    public Duration getEstimatedEffortPerOccurrence() {
+        return Duration.ofMinutes(5);
     }
 }

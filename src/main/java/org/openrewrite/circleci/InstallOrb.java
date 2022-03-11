@@ -21,6 +21,8 @@ import org.openrewrite.*;
 import org.openrewrite.yaml.*;
 import org.openrewrite.yaml.tree.Yaml;
 
+import java.time.Duration;
+
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class InstallOrb extends Recipe {
@@ -42,6 +44,11 @@ public class InstallOrb extends Recipe {
     @Override
     public String getDescription() {
         return "Install a CircleCI [orb](https://circleci.com/docs/2.0/orb-intro/) if it is not already installed.";
+    }
+
+    @Override
+    public Duration getEstimatedEffortPerOccurrence() {
+        return Duration.ofMinutes(5);
     }
 
     @Override
