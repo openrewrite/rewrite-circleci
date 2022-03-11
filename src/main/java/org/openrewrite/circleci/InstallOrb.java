@@ -61,8 +61,8 @@ public class InstallOrb extends Recipe {
         JsonPathMatcher orbs = new JsonPathMatcher("$.orbs");
         return new YamlIsoVisitor<ExecutionContext>() {
             @Override
-            public Yaml.Document visitDocument(Yaml.Document document, ExecutionContext executionContext) {
-                Yaml.Document d = super.visitDocument(document, executionContext);
+            public Yaml.Document visitDocument(Yaml.Document document, ExecutionContext ctx) {
+                Yaml.Document d = super.visitDocument(document, ctx);
                 if (!orbs.find(getCursor()).isPresent() || Boolean.TRUE.equals(getCursor().getMessage("INSERT_ORB"))) {
                     doAfterVisit(new MergeYamlVisitor<>(document.getBlock(), "" +
                             "orbs:\n" +
