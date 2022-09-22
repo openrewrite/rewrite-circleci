@@ -67,7 +67,7 @@ public class InstallOrb extends Recipe {
                     doAfterVisit(new MergeYamlVisitor<>(document.getBlock(), "" +
                             "orbs:\n" +
                             "  " + orbKey + ": " + slug,
-                            false));
+                            false, null));
                 }
                 return d;
             }
