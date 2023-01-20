@@ -17,33 +17,30 @@ package org.openrewrite.circleci
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import org.openrewrite.Recipe
-import org.openrewrite.yaml.YamlRecipeTest
+import org.openrewrite.test.RecipeSpec
+import org.openrewrite.test.RewriteTest
+import org.openrewrite.yaml.Assertions.yaml
 import java.nio.file.Path
 
-class UpdateImageTest : YamlRecipeTest {
-    override val recipe: Recipe
-        get() = UpdateImage("circleci/openjdk:jdk")
+class UpdateImageTest : RewriteTest {
+
+    override fun defaults(spec: RecipeSpec) {
+        spec.recipe(UpdateImage("circleci/openjdk:jdk"))
+    }
 
     @Test
-    fun circleImage(@TempDir tempDir: Path) = assertChanged(
-        before = tempDir.resolve(".circleci/config.yml").toFile().apply {
-            parentFile.mkdirs()
-            writeText(
-                """
-                    version: 2
-                    jobs:
-                      build:
-                        machine:
-                          image: ubuntu-1604:202007-01
-                        branches:
-                          ignore:
-                            - gh-pages
-                """.trimIndent()
-            )
-        },
-        relativeTo = tempDir,
-        after = """
+    fun circleImage(@TempDir tempDir: Path) = rewriteRun(
+        yaml("""
+            version: 2
+            jobs:
+              build:
+                machine:
+                  image: ubuntu-1604:202007-01
+                branches:
+                  ignore:
+                    - gh-pages
+            """,
+        """
             version: 2
             jobs:
               build:
@@ -52,6 +49,8 @@ class UpdateImageTest : YamlRecipeTest {
                 branches:
                   ignore:
                     - gh-pages
-        """
+        """) { spec ->
+            spec.path(".circleci/config.yml")
+        }
     )
 }

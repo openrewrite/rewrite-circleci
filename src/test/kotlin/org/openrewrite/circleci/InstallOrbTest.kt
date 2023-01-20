@@ -17,50 +17,45 @@ package org.openrewrite.circleci
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import org.openrewrite.Recipe
-import org.openrewrite.yaml.YamlRecipeTest
+import org.openrewrite.test.RecipeSpec
+import org.openrewrite.test.RewriteTest
+import org.openrewrite.yaml.Assertions.yaml
 import java.nio.file.Path
 
-class InstallOrbTest : YamlRecipeTest {
-    override val recipe: Recipe
-        get() = InstallOrb("java", "circleci/openjdk:jdk")
+class InstallOrbTest : RewriteTest {
+
+    override fun defaults(spec: RecipeSpec) {
+        spec.recipe(InstallOrb("java", "circleci/openjdk:jdk"))
+    }
 
     @Test
-    fun installNewOrb(@TempDir tempDir: Path) = assertChanged(
-        before = tempDir.resolve(".circleci/config.yml").toFile().apply {
-            parentFile.mkdirs()
-            writeText(
-                """
-                    version: 2.1
-                    orbs:
-                      node: circleci/node@1.0
-                """.trimIndent()
-            )
-        },
-        relativeTo = tempDir,
-        after = """
+    fun installNewOrb(@TempDir tempDir: Path) = rewriteRun(
+        yaml("""
+            version: 2.1
+            orbs:
+              node: circleci/node@1.0
+            """,
+        """
             version: 2.1
             orbs:
               node: circleci/node@1.0
               java: circleci/openjdk:jdk
-        """
+          """) { spec ->
+            spec.path(".circleci/config.yml")
+        }
     )
 
     @Test
-    fun installFirstOrb(@TempDir tempDir: Path) = assertChanged(
-        before = tempDir.resolve(".circleci/config.yml").toFile().apply {
-            parentFile.mkdirs()
-            writeText(
-                """
-                    version: 2.1
-                """.trimIndent()
-            )
-        },
-        relativeTo = tempDir,
-        after = """
+    fun installFirstOrb(@TempDir tempDir: Path) = rewriteRun(
+        yaml("""
+                version: 2.1
+            """,
+            """
             version: 2.1
             orbs:
               java: circleci/openjdk:jdk
-        """
+        """) { spec ->
+            spec.path(".circleci/config.yml")
+        }
     )
 }
