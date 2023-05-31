@@ -17,11 +17,8 @@ package org.openrewrite.circleci;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.openrewrite.Option;
-import org.openrewrite.Recipe;
+import org.openrewrite.*;
 import org.openrewrite.yaml.ChangeValue;
-
-import java.time.Duration;
 
 @EqualsAndHashCode(callSuper = false)
 @Getter
@@ -33,10 +30,6 @@ public class UpdateImage extends Recipe {
 
     public UpdateImage(String image) {
         this.image = image;
-        doNext(new ChangeValue("$.jobs.build.machine.image",
-                image,
-                ".circleci/config.yml")
-        );
     }
 
     @Override
@@ -50,7 +43,8 @@ public class UpdateImage extends Recipe {
     }
 
     @Override
-    public Duration getEstimatedEffortPerOccurrence() {
-        return Duration.ofMinutes(5);
+    public TreeVisitor<?, ExecutionContext> getVisitor() {
+        return Preconditions.check(new HasSourcePath<>(".circleci/config.yml"), new ChangeValue("$.jobs.build.machine.image",
+                image).getVisitor());
     }
 }

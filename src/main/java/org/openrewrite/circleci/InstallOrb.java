@@ -47,19 +47,9 @@ public class InstallOrb extends Recipe {
     }
 
     @Override
-    public Duration getEstimatedEffortPerOccurrence() {
-        return Duration.ofMinutes(5);
-    }
-
-    @Override
-    protected TreeVisitor<?, ExecutionContext> getSingleSourceApplicableTest() {
-        return new HasSourcePath<>(".circleci/config.yml");
-    }
-
-    @Override
-    protected YamlVisitor<ExecutionContext> getVisitor() {
+    public TreeVisitor<?, ExecutionContext> getVisitor() {
         JsonPathMatcher orbs = new JsonPathMatcher("$.orbs");
-        return new YamlIsoVisitor<ExecutionContext>() {
+        return Preconditions.check(new HasSourcePath<>(".circleci/config.yml"), new YamlIsoVisitor<ExecutionContext>() {
             @Override
             public Yaml.Document visitDocument(Yaml.Document document, ExecutionContext ctx) {
                 Yaml.Document d = super.visitDocument(document, ctx);
@@ -89,6 +79,6 @@ public class InstallOrb extends Recipe {
 
                 return super.visitMapping(mapping, ctx);
             }
-        };
+        });
     }
 }
