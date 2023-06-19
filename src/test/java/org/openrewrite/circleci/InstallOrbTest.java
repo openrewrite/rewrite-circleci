@@ -17,6 +17,7 @@ package org.openrewrite.circleci;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
@@ -31,6 +32,7 @@ class InstallOrbTest implements RewriteTest {
         spec.recipe(new InstallOrb("java", "circleci/openjdk:jdk"));
     }
 
+    @DocumentExample
     @Test
     void installNewOrb(@TempDir Path tempDir) {
         rewriteRun(
