@@ -44,7 +44,7 @@ public class UpdateImage extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return Preconditions.check(new HasSourcePath(".circleci/config.yml"), new ChangeValue("$.jobs.build.machine.image",
+        return Preconditions.check(new FindSourceFiles(".circleci/config.yml"), new ChangeValue("$.jobs.build.machine.image",
                 image).getVisitor());
     }
 }

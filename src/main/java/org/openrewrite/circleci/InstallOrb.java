@@ -49,7 +49,7 @@ public class InstallOrb extends Recipe {
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
         JsonPathMatcher orbs = new JsonPathMatcher("$.orbs");
-        return Preconditions.check(new HasSourcePath(".circleci/config.yml"), new YamlIsoVisitor<ExecutionContext>() {
+        return Preconditions.check(new FindSourceFiles(".circleci/config.yml"), new YamlIsoVisitor<ExecutionContext>() {
             @Override
             public Yaml.Document visitDocument(Yaml.Document document, ExecutionContext ctx) {
                 Yaml.Document d = super.visitDocument(document, ctx);
