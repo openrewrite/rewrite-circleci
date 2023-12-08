@@ -55,8 +55,9 @@ class InstallOrbTest implements RewriteTest {
     @Test
     void installFirstOrb(@TempDir Path tempDir) {
         rewriteRun(
-          yaml("""
-                  version: 2.1
+          yaml(
+                """
+              version: 2.1
               """,
             """
                   version: 2.1
