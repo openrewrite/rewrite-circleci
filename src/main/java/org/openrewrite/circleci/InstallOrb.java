@@ -24,7 +24,7 @@ import org.openrewrite.yaml.tree.Yaml;
 import java.time.Duration;
 
 @Value
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class InstallOrb extends Recipe {
     @Option(displayName = "Orb key",
             description = "The orb key to be followed by an orb slug identifying a specific orb version.",
