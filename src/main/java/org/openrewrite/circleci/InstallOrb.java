@@ -18,10 +18,10 @@ package org.openrewrite.circleci;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.openrewrite.*;
-import org.openrewrite.yaml.*;
+import org.openrewrite.yaml.JsonPathMatcher;
+import org.openrewrite.yaml.MergeYamlVisitor;
+import org.openrewrite.yaml.YamlIsoVisitor;
 import org.openrewrite.yaml.tree.Yaml;
-
-import java.time.Duration;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
